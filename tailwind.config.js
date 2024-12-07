@@ -5,7 +5,12 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}", // Include all React files
   ],
   theme: {
-    extend: {}, // Extend Tailwind's default theme here if needed
+    extend: {
+       colors: {
+        gradientStart: 'rgba(215, 199, 244, 0.2)',
+        gradientEnd: 'rgba(151, 133, 186, 0.2)',
+      },
+    }, // Extend Tailwind's default theme here if needed
   },
   plugins: [],
 };
