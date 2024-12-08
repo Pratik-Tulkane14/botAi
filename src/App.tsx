@@ -6,8 +6,10 @@ import History from "./components/History";
 import Navbar from "./components/Navbar";
 import Feedback from "./components/Feedback";
 import InputBox from "./components/InputBox";
-
+import "./index.css"
+import Chat from "./components/Chat";
 function App() {
+  const [botAiResponse, setBotAiResponse] = useState([]);
   const [opened, setOpened] = useState(false);
   const [isFeedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const handleFeedbackModalOpen = () => {
@@ -16,7 +18,9 @@ function App() {
   const toggle = () => {
     setOpened((prev) => !prev);
   };
-
+  const handleFeedBackModalOpen = () => {
+    setOpened((prev) => !prev);
+  };
   return (
     <>
 
@@ -39,7 +43,7 @@ function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Navbar>
-          <Navbar />
+          <Navbar setBotAiResponse={setBotAiResponse} />
         </AppShell.Navbar>
         <AppShell.Main className="text-[#9785BA] font-bold bg-custom-color pb-0">
           <Routes>
@@ -47,16 +51,22 @@ function App() {
               path="/"
               element={
                 <>
-                  <div>Bot AI</div>
-                  <div className="flex flex-col items-center mt-auto">
-                    <h2 className="text-black">How Can I Help You Today?</h2>
-                    <img
-                      src={'/brandLogo.svg'}
-                      className="rounded-full"
-                      alt="Brand Logo"
-                    />
-                  </div>
-                  <Welcome />
+                  {botAiResponse.length === 0 ?
+                    <>
+                      <div>Bot AI</div>
+                      <div className="flex flex-col items-center mt-auto">
+                        <h2 className="text-black">How Can I Help You Today?</h2>
+                        <img
+                          src={'/brandLogo.svg'}
+                          className="rounded-full"
+                          alt="Brand Logo"
+                        />
+                      </div>
+                      <Welcome setBotAiResponse={setBotAiResponse} />
+                    </>
+                    :
+                    <Chat botAiResponse={botAiResponse} setBotAiResponse={setBotAiResponse} handleFeedBackModalOpen={handleFeedBackModalOpen} />
+                  }
                 </>
               }
             />
@@ -67,7 +77,7 @@ function App() {
               isFeedbackModalOpen={isFeedbackModalOpen}
               handleFeedBackModalOpen={handleFeedbackModalOpen}
             />
-            <InputBox />
+            <InputBox botAiResponse={botAiResponse} setBotAiResponse={setBotAiResponse} />
           </>
         </AppShell.Main>
       </AppShell>

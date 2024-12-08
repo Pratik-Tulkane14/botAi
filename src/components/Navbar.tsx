@@ -1,11 +1,15 @@
 import { Flex } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
-const Navbar = () => {
+interface NavbarProps {
+  setBotAiResponse: React.Dispatch<React.SetStateAction<{ id: number; question: string; response: string; }[]>>
+}
+const Navbar = ({ setBotAiResponse }: NavbarProps) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/history");
   }
   const handleNewChat = () => {
+    setBotAiResponse([]);
     navigate("/");
   }
 
