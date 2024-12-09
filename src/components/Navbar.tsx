@@ -1,9 +1,10 @@
 import { Flex } from '@mantine/core'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 interface NavbarProps {
   setBotAiResponse: React.Dispatch<React.SetStateAction<{ id: number; question: string; response: string; }[]>>
+  handleFeedbackModalOpen: () => void
 }
-const Navbar = ({ setBotAiResponse }: NavbarProps) => {
+const Navbar = ({ handleFeedbackModalOpen, setBotAiResponse }: NavbarProps) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/history");
@@ -15,12 +16,14 @@ const Navbar = ({ setBotAiResponse }: NavbarProps) => {
 
   return (
     <>
-      <Flex justify="space-between" align="center" onClick={handleNewChat} className='bg-[#D7C7F4] cursor-pointer	p-3'>
-        <div className="logo">
-          <img src={`brandLogo.svg`} className='rounded-lg' alt="brand Logo" />
+      <Flex justify="space-between" align="center" className='bg-[#D7C7F4]	p-3'>
+        <div className="logo cursor-pointer">
+          <Link to="/" >
+            <img src={`brandLogo.svg`} className='rounded-lg' alt="brand Logo" />
+          </Link>
         </div>
-        <div className="chat">New Chat</div>
-        <div className="edit">
+        <div className="chat cursor-pointer" onClick={handleNewChat}>New Chat</div>
+        <div className="edit cursor-pointer" onClick={handleFeedbackModalOpen}>
           <img src={`/editIcon.svg`} alt="edit icon" />
         </div>
       </Flex>

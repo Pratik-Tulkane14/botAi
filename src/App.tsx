@@ -8,17 +8,23 @@ import Feedback from "./components/Feedback";
 import InputBox from "./components/InputBox";
 import "./index.css"
 import Chat from "./components/Chat";
+import staticData from "./constants/staticData";
 function App() {
-  const [botAiResponse, setBotAiResponse] = useState([]);
+  const [botAiResponse, setBotAiResponse] = useState<
+    { id: number; question: string; response: string; feedback?: string; rating?: number; isLike?: boolean }[]
+  >([]);
+  console.log(botAiResponse,"botAiResponse");
+
   const [opened, setOpened] = useState(false);
   const [isFeedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [id, setId] = useState<number>(0)
   const handleFeedbackModalOpen = () => {
     setFeedbackModalOpen((prev) => !prev);
   };
+  const handleClick = (selectedId: number) => {
+    setId(selectedId);
+  }
   const toggle = () => {
-    setOpened((prev) => !prev);
-  };
-  const handleFeedBackModalOpen = () => {
     setOpened((prev) => !prev);
   };
   return (
@@ -43,7 +49,7 @@ function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Navbar>
-          <Navbar setBotAiResponse={setBotAiResponse} />
+          <Navbar handleFeedbackModalOpen={handleFeedbackModalOpen} setBotAiResponse={setBotAiResponse} />
         </AppShell.Navbar>
         <AppShell.Main className="text-[#9785BA] font-bold bg-custom-color pb-0">
           <Routes>
@@ -65,7 +71,7 @@ function App() {
                       <Welcome setBotAiResponse={setBotAiResponse} />
                     </>
                     :
-                    <Chat botAiResponse={botAiResponse} setBotAiResponse={setBotAiResponse} handleFeedBackModalOpen={handleFeedBackModalOpen} />
+                    <Chat botAiResponse={botAiResponse} setBotAiResponse={setBotAiResponse} handleFeedbackModalOpen={handleFeedbackModalOpen} handleClick={handleClick} />
                   }
                 </>
               }
@@ -74,10 +80,13 @@ function App() {
           </Routes>
           <>
             <Feedback
+              id={id}
+              botAiResponse={botAiResponse}
+              setBotAiResponse={setBotAiResponse}
               isFeedbackModalOpen={isFeedbackModalOpen}
               handleFeedBackModalOpen={handleFeedbackModalOpen}
             />
-            <InputBox botAiResponse={botAiResponse} setBotAiResponse={setBotAiResponse} />
+            <InputBox setBotAiResponse={setBotAiResponse} />
           </>
         </AppShell.Main>
       </AppShell>

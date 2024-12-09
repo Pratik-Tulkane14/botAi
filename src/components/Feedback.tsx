@@ -1,17 +1,46 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Input, Modal } from '@mantine/core';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import staticData from "../constants/staticData";
+import botAiResponse from "../constants/botAiResponse";
 interface FeedbackProp {
+    id: number,
     isFeedbackModalOpen: boolean,
+    botAiResponse: React.Dispatch<React.SetStateAction<{ id: number; question: string; response: string; feedback: string }[]>>
+    setBotAiResponse: React.Dispatch<React.SetStateAction<{ id: number; question: string; response: string; feedback: string }[]>>
+
     handleFeedBackModalOpen: () => void
 }
-const Feedback = ({ isFeedbackModalOpen, handleFeedBackModalOpen }: FeedbackProp) => {
-    const [opened, { open, close }] = useDisclosure(false);
+const Feedback = ({ id, botAiResponse, setBotAiResponse, isFeedbackModalOpen, handleFeedBackModalOpen }: FeedbackProp) => {
+    const [value, setValue] = useState<string>('');
+    const [opened, { open, close }] = useDisclosure(isFeedbackModalOpen);
+    const handleClose = () => {
+        close();
+        handleFeedBackModalOpen()
+    }
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setBotAiResponse((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, feedback: value } : item
+            )
+        );
+        handleFeedBackModalOpen();
+        close();
+        setValue('');
+    }
+    useEffect(() => {
+        if (isFeedbackModalOpen) {
+            open()
+        } else {
+            close()
+        }
+    }, [isFeedbackModalOpen, open, close]);
     return (
         <>
             <Modal
                 opened={opened}
-                onClose={close}
+                onClose={handleClose}
                 centered
                 title={
                     <div className="flex items-center gap-2">
@@ -25,12 +54,14 @@ const Feedback = ({ isFeedbackModalOpen, handleFeedBackModalOpen }: FeedbackProp
                 }
             >
                 {/* Modal content */}
-                <div className="flex flex-col gap-5">
-                    <Input placeholder="Please write something..." />
-                    <Button className="ml-auto" onClick={open} color="gray">
+                <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-5">
+
+                    <Input placeholder="Please write something..." required value={value}
+                        onChange={(event) => setValue(event.currentTarget.value)} />
+                    <Button type="submit" className="ml-auto" onClick={open} color="gray">
                         Submit
                     </Button>
-                </div>
+                </form>
             </Modal>
         </>
     )
