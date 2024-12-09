@@ -3,7 +3,7 @@ interface HistoryData{
     question:string,
     response:string,
     isRating:boolean,
-    rating:number,
+    rating?:number,
 
 }
 export default HistoryData

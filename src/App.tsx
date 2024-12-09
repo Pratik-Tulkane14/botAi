@@ -6,14 +6,12 @@ import History from "./components/History";
 import Navbar from "./components/Navbar";
 import Feedback from "./components/Feedback";
 import InputBox from "./components/InputBox";
-import "./index.css"
+import "../index.css"
 import Chat from "./components/Chat";
-import staticData from "./constants/staticData";
 function App() {
   const [botAiResponse, setBotAiResponse] = useState<
     { id: number; question: string; response: string; feedback?: string; rating?: number; isLike?: boolean }[]
   >([]);
-  console.log(botAiResponse,"botAiResponse");
 
   const [opened, setOpened] = useState(false);
   const [isFeedbackModalOpen, setFeedbackModalOpen] = useState(false);
@@ -81,7 +79,6 @@ function App() {
           <>
             <Feedback
               id={id}
-              botAiResponse={botAiResponse}
               setBotAiResponse={setBotAiResponse}
               isFeedbackModalOpen={isFeedbackModalOpen}
               handleFeedBackModalOpen={handleFeedbackModalOpen}

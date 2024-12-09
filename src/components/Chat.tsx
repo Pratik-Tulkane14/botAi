@@ -1,39 +1,32 @@
 import { Rating } from "@mantine/core";
-import { useState } from "react";
+import React from "react";
 
 interface ChatProp {
-  botAiResponse: React.Dispatch<
-    React.SetStateAction<
-      {
+    botAiResponse: {
         id: number;
         question: string;
         response: string;
         feedback?: string;
         rating?: number;
         isLike?: boolean;
-      }[]
-    >
-  >;
-  setBotAiResponse: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number;
-        question: string;
-        response: string;
-        feedback?: string;
-        rating?: number;
-        isLike?: boolean;
-      }[]
-    >
-  >;
-  handleFeedbackModalOpen: () => void;
-  handleClick: (arg: number) => void;
-}
-interface itemElemment {
-  item: { id: number; question: string; response: string }[];
+    }[];
+    setBotAiResponse: React.Dispatch<
+        React.SetStateAction<
+            {
+                id: number;
+                question: string;
+                response: string;
+                feedback?: string;
+                rating?: number;
+                isLike?: boolean;
+            }[]
+        >
+    >;
+    handleFeedbackModalOpen: () => void;
+    handleClick: (id: number) => void;
 }
 
-const Chat = ({
+const Chat: React.FC<ChatProp> = ({
   botAiResponse,
   setBotAiResponse,
   handleFeedbackModalOpen,
@@ -56,7 +49,7 @@ const Chat = ({
 
   return (
     <div className="flex flex-col gap-5 mt-20">
-      {botAiResponse?.map((item: itemElemment, index: number) => (
+      {botAiResponse?.map((item, index) => (
         <div key={index} className="flex flex-col gap-5">
           <div className="flex gap-5 rounded-md shadow bg-[#D7C7F421] p-5 text-black drop-shadow-lg">
             <img

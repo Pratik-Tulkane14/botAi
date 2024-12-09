@@ -2,15 +2,9 @@ import { NativeSelect, Rating } from "@mantine/core";
 import history from "../constants/history";
 import { useEffect, useState } from "react";
 import HistoryData from "../interface";
-const History = () => {
-    const rating = [
-        { label: "All Ratings", value: "6" },
-        { label: "1 Star", value: "1" },
-        { label: "2 Star", value: "2" },
-        { label: "3 Star", value: "3" },
-        { label: "4 Star", value: "4" },
-        { label: "5 Star", value: "5" },
-    ]
+import rating from "../constants/ratings";
+const History:React.FC = () => {
+  
     const [value, setValue] = useState<number>();
     const [data, setData] = useState<HistoryData[]>([])
     const [originalData, setOriginalData] = useState<HistoryData[]>([]);
@@ -30,12 +24,13 @@ const History = () => {
     };
 
     useEffect(() => {
-        if (history?.length>0) {
-
-            setData(history)
-            setOriginalData(history)
+        if (history?.length > 0) {
+            // Clone history to ensure immutability
+            const clonedHistory = [...history];
+            setData(clonedHistory);
+            setOriginalData(clonedHistory);
         }
-    }, [])
+    }, []);
     return (
         <>
             <div className="flex flex-col items-center">
