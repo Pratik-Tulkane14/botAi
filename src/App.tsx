@@ -6,7 +6,7 @@ import History from "./components/History";
 import Navbar from "./components/Navbar";
 import Feedback from "./components/Feedback";
 import InputBox from "./components/InputBox";
-import "../index.css"
+import "./index.css"
 import Chat from "./components/Chat";
 function App() {
   const [botAiResponse, setBotAiResponse] = useState<

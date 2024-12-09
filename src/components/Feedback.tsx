@@ -12,6 +12,8 @@ interface FeedbackProp {
                 question: string;
                 response: string;
                 feedback?: string;
+                rating?:number;
+                isLike?:boolean
             }[]
         >
     >;
